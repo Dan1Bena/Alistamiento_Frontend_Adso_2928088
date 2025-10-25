@@ -8,6 +8,8 @@ import { PermisosPagina } from "../pages/PermisosPagina";
 import { RolPermisoPagina } from "../pages/RolPermisoPagina";
 import { Bienvenido } from "../pages/Bienvenido";
 import { useAuthContext } from "../context/AuthContext";
+import KanbanPage from "../pages/KanbanPage";
+
 
 const PrivateRoute = ({ children, allowedRoles }) => {
   const { user } = useAuthContext();

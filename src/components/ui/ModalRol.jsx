@@ -57,3 +57,5 @@ export const ModalRol = ({ onClose, onSave, rolSeleccionado }) => {
         </div>
     );
 };
+
+export default ModalRol;
