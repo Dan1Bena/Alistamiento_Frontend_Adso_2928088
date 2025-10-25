@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import { Login } from "../components/login/Login";
-import { Registro } from "../components/registro/Registro";
+//import { Registro } from "../components/registro/Registro";
 import { Principal } from "../pages/Principal";
 import { UsuariosPagina } from "../pages/UsuariosPagina";
 import { RolesPagina } from "../pages/RolesPagina";
@@ -21,7 +21,6 @@ const PrivateRoute = ({ children, allowedRoles }) => {
 export const AppRutas = () => (
   <Routes>
     <Route path="/" element={<Login />} />
-    <Route path="/registro" element={<Registro />} />
     <Route path="/kanban" element={<KanbanPage />} />
 
     {/* Solo Admin */}
