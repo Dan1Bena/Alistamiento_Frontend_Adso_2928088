@@ -1,16 +1,14 @@
-import { Routes, Route } from "react-router-dom";
-import { Home } from "../components/home/Home";
+
+import { Routes, Route, Navigate } from "react-router-dom";
 import { Login } from "../components/login/Login";
-//import { Registro } from "../components/registro/Registro";
 import { Principal } from "../pages/Principal";
 import { UsuariosPagina } from "../pages/UsuariosPagina";
 import { RolesPagina } from "../pages/RolesPagina";
 import { PermisosPagina } from "../pages/PermisosPagina";
 import { RolPermisoPagina } from "../pages/RolPermisoPagina";
-import { Bienvenido } from "../pages/Bienvenido";
+import Bienvenido from "../pages/Bienvenido";
 import { useAuthContext } from "../context/AuthContext";
 import KanbanPage from "../pages/KanbanPage";
-
 
 const PrivateRoute = ({ children, allowedRoles }) => {
   const { user } = useAuthContext();
@@ -21,21 +19,14 @@ const PrivateRoute = ({ children, allowedRoles }) => {
   return children;
 };
 
-
-
 export const AppRutas = () => (
-
-  
-
   <Routes>
+    {/* 🔹 Redirige automáticamente "/" al login */}
+    <Route path="/" element={<Navigate to="/login" />} />
 
-<Route path="/" element={<Home />} />
-<Route path="/login" element={<Login />} />
-
-    <Route path="/" element={<Login />} />
+    <Route path="/login" element={<Login />} />
     <Route path="/kanban" element={<KanbanPage />} />
 
-    {/* Solo Admin */}
     <Route
       path="/principal"
       element={
@@ -76,8 +67,6 @@ export const AppRutas = () => (
         </PrivateRoute>
       }
     />
-
-    {/* Todos los usuarios logueados pueden acceder */}
     <Route
       path="/bienvenido"
       element={
@@ -87,4 +76,7 @@ export const AppRutas = () => (
       }
     />
   </Routes>
-);
+  );
+
+
+  

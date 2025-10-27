@@ -9,3 +9,4 @@ export const PrivateRoute = ({ children, allowedRoles }) => {
 
   return children;
 };
+
