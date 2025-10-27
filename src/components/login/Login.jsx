@@ -2,7 +2,8 @@ import { useState } from "react";
 import { useAuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
-import logo from "../../assets/nodorap.png"; // ajusta si tu ruta es distinta
+import logo from "../../assets/nodorap.png";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack"; // 👈 Agrega este import arriba con los otros // ajusta si tu ruta es distinta
 
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
@@ -15,22 +16,32 @@ export const Login = () => {
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const success = await login(email, password);
-    if (success) {
-      if (user.rol === "Administrador") {
-        navigate("/principal");
-      } else {
-        navigate("/bienvenido");
-      }
+  e.preventDefault();
+
+  const success = await login(email, password);
+
+  if (success) {
+    // 🔹 Obtener el usuario directamente del localStorage
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    if (storedUser?.rol === "Administrador") {
+      navigate("/principal");
     } else {
-      alert("Credenciales inválidas");
+      navigate("/bienvenido");
     }
-  };
+  } else {
+    alert("Credenciales inválidas");
+  }
+};
 
   return (
+
     <div className="login-container">
       <div className="login-card">
+         {/* Enlace Volver */}
+    <div className="back-link" onClick={() => navigate("/")}>
+      <ArrowBackIcon sx={{ fontSize: 18 }} />
+      Volver
+    </div>
         <img src={logo} alt="NodoRAP Logo" className="login-logo" />
         <h2>Iniciar Sesión</h2>
         <p className="login-subtitle">

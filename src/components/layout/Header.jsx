@@ -7,6 +7,11 @@ export const Header = () => {
   const { user, logout } = useAuthContext();
   const navigate = useNavigate();
 
+ const handleLogout = () => {
+    logout(); // Cierra la sesión del usuario
+    navigate("/"); // Redirige al home
+  };
+
   return (
     <header className="header">
       <div className="header-left">
@@ -20,7 +25,7 @@ export const Header = () => {
         <span className="header-user">
           {user?.nombre} ({user?.rol})
         </span>
-        <button onClick={logout} className="logout-btn">
+        <button onClick={handleLogout} className="logout-btn">
           Cerrar sesión
         </button>
       </div>
