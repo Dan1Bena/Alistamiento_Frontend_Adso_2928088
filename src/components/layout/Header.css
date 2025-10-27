@@ -1,89 +1,105 @@
-/* Estilos generales del header */
+/* ====== HEADER GENERAL ====== */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #1e293b; /* azul oscuro */
-  color: white;
-  padding: 0.8rem 1.5rem;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  background-color: #ffffff;
+  padding: 0.8rem 2rem;
+  border-bottom: 2px solid #e5e7eb;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
-/* Lado izquierdo: logo + navegación */
+/* ====== LADO IZQUIERDO ====== */
 .header-left {
   display: flex;
   align-items: center;
-  gap: 2rem;
-}
-
-.header-logo {
-  font-size: 1.3rem;
-  font-weight: bold;
-  cursor: pointer;
-  color: #ffffff;
-  transition: color 0.3s;
-}
-
-.header-logo:hover {
-  color: #93c5fd; /* azul claro al pasar el mouse */
-}
-
-/* Navegación */
-.header-nav {
-  display: flex;
   gap: 1rem;
 }
 
-.nav-link {
-  color: #e5e7eb; /* gris claro */
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.3s, border-bottom 0.3s;
-  padding-bottom: 2px;
+.header-logo-img {
+  width: 60px;
+  height: 38px;
 }
 
-.nav-link:hover {
-  color: #ffffff;
-  border-bottom: 2px solid #60a5fa; /* azul celeste */
+.header-title {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 }
 
-.nav-link:hover {
-  color: #ffffff;
-  border-bottom: 2px solid #60a5fa; /* azul celeste */
+.header-app-name {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #0f172a;
+  margin: 0;
+   line-height: 1.3; 
 }
 
-.nav-link.active {
-  color: #ffffff;
-  border-bottom: 2px solid #2563eb; /* azul más fuerte */
+.header-subtitle {
+  font-size: 0.9rem;
+  color: #64748b;
+  margin: 0;
 }
 
-/* Lado derecho: usuario + logout */
+/* ====== LADO DERECHO ====== */
 .header-right {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 1.2rem;
 }
 
-.header-user {
-  font-size: 0.9rem;
-  font-weight: 500;
+/* Avatar circular */
+.user-avatar {
+  background-color: #0f172a;
+  color: #fff;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
 }
 
-/* Botón logout pill-button */
+/* Info del usuario */
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.user-role {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.user-name {
+  font-size: 0.8rem;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+}
+
+/* ====== BOTÓN LOGOUT ====== */
 .logout-btn {
-  background-color: #445566; /* gris oscuro */
-  color: white;
+  display: flex;
+  align-items: center;
+  background: none;
+  color: #374151;
   border: none;
-  padding: 0.3rem 0.9rem; /* más compacto */
-  border-radius: 9999px; /* hace el estilo pill */
+  font-size: 0.85rem;
   cursor: pointer;
-  font-size: 0.85rem; /* un poco más pequeño */
-  font-weight: 500;
-  transition: background 0.3s, transform 0.2s;
+  transition: color 0.3s;
 }
 
 .logout-btn:hover {
-  background-color: #374151; /* gris más intenso */
-  transform: scale(1.05); /* efecto sutil al hover */
+  color: #2563eb;
 }
-
