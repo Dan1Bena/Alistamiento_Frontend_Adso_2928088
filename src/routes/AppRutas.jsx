@@ -1,83 +1,55 @@
 import { Routes, Route } from "react-router-dom";
 import { Home } from "../components/home/Home";
 import { Login } from "../components/login/Login";
-//import { Registro } from "../components/registro/Registro";
-import { Principal } from "../pages/Principal";
-import { UsuariosPagina } from "../pages/UsuariosPagina";
-import { RolesPagina } from "../pages/RolesPagina";
-import { PermisosPagina } from "../pages/PermisosPagina";
-import { RolPermisoPagina } from "../pages/RolPermisoPagina";
-import { Bienvenido } from "../pages/Bienvenido";
 import { useAuthContext } from "../context/AuthContext";
-import KanbanPage from "../pages/KanbanPage";
 
+import { PanelLayout } from "../components/layout/PanelLayout";
+import { UsuariosPagina } from "../pages/UsuariosPagina";
+import { Bienvenido } from "../pages/Bienvenido";
 
+// ✅ Nuevas importaciones (asegúrate de que existan esos archivos)
+import { ProgramasPagina } from "../pages/ProgramasPagina";
+import { FichasPagina } from "../pages/FichasPagina";
+
+// 🔒 Protección de rutas
 const PrivateRoute = ({ children, allowedRoles }) => {
   const { user } = useAuthContext();
 
-  if (!user) return <Login />; // No logueado
+  if (!user) return <Login />; // Usuario no logueado
   if (allowedRoles && !allowedRoles.includes(user.rol)) return <Bienvenido />; // Rol no permitido
 
   return children;
 };
 
-
-
 export const AppRutas = () => (
-
-  
-
   <Routes>
+    {/* 🌐 Rutas públicas */}
+    <Route path="/" element={<Home />} />
+    <Route path="/login" element={<Login />} />
 
-<Route path="/" element={<Home />} />
-<Route path="/login" element={<Login />} />
+    {/* 🔒 Rutas protegidas */}
+    <Route
+      path="/principal/*"
+      element={
+        <PrivateRoute allowedRoles={["Administrador"]}>
+          <PanelLayout />
+        </PrivateRoute>
+      }
+    >
+      {/* 👥 Usuarios */}
+      <Route path="usuarios" element={<UsuariosPagina />} />
 
-    <Route path="/" element={<Login />} />
-    <Route path="/kanban" element={<KanbanPage />} />
+      {/* 🧾 Programas */}
+      <Route path="programas" element={<ProgramasPagina />} />
 
-    {/* Solo Admin */}
-    <Route
-      path="/principal"
-      element={
-        <PrivateRoute allowedRoles={["Administrador"]}>
-          <Principal />
-        </PrivateRoute>
-      }
-    />
-    <Route
-      path="/usuarios"
-      element={
-        <PrivateRoute allowedRoles={["Administrador"]}>
-          <UsuariosPagina />
-        </PrivateRoute>
-      }
-    />
-    <Route
-      path="/roles"
-      element={
-        <PrivateRoute allowedRoles={["Administrador"]}>
-          <RolesPagina />
-        </PrivateRoute>
-      }
-    />
-    <Route
-      path="/permisos"
-      element={
-        <PrivateRoute allowedRoles={["Administrador"]}>
-          <PermisosPagina />
-        </PrivateRoute>
-      }
-    />
-    <Route
-      path="/rol-permisos"
-      element={
-        <PrivateRoute allowedRoles={["Administrador"]}>
-          <RolPermisoPagina />
-        </PrivateRoute>
-      }
-    />
+      {/* 🗂️ Fichas */}
+      <Route path="fichas" element={<FichasPagina />} />
 
-    {/* Todos los usuarios logueados pueden acceder */}
+      {/* ✅ Ruta por defecto (cuando entra solo a /principal) */}
+      <Route index element={<UsuariosPagina />} />
+    </Route>
+
+    {/* 👋 Bienvenida general */}
     <Route
       path="/bienvenido"
       element={
@@ -86,5 +58,8 @@ export const AppRutas = () => (
         </PrivateRoute>
       }
     />
+
+    {/* 🧭 Ruta no encontrada */}
+    <Route path="*" element={<Bienvenido />} />
   </Routes>
 );

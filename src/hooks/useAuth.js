@@ -7,7 +7,7 @@ export const useAuth = () => {
 
   useEffect(() => {
     if (token && !user) {
-      // Aqui se valida el token del backend
+      // Aquí se valida el token del backend o se recupera el usuario guardado
       const storedUser = JSON.parse(localStorage.getItem("user"));
       if (storedUser) setUser(storedUser);
     }
@@ -16,12 +16,26 @@ export const useAuth = () => {
   const login = async (email, password) => {
     const data = await loginRequest({ email, password });
 
-    if (data.token) {
+    if (data.token && data.usuario) {
+      const rawUser = data.usuario;
+
+      console.log("🧩 Datos crudos del backend:", rawUser);
+
+      // Si el backend devuelve "Sin rol", usamos el nombre como fallback
+      const rol =
+        rawUser?.rol && rawUser.rol !== "Sin rol"
+          ? rawUser.rol
+          : rawUser?.nombre || "Sin rol";
+
+      const userWithRole = { ...rawUser, rol };
+
+      console.log("✅ Usuario autenticado:", userWithRole);
+
       setToken(data.token);
-      setUser(data.usuario);
+      setUser(userWithRole);
 
       localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.usuario));
+      localStorage.setItem("user", JSON.stringify(userWithRole));
 
       return true;
     }

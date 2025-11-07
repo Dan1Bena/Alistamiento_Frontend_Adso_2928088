@@ -1,77 +1,199 @@
+/* --- CONTENEDOR GENERAL --- */
 .pagina-contenedor {
-  padding: 1.5rem;
-  background: #f9fafb;
-  border-radius: 0.5rem;
+  padding: 2rem 3rem;
+  background-color: #f9fafb;
+  min-height: 100vh;
+}
+
+/* --- ENCABEZADO --- */
+.pagina-header {
+  margin-bottom: 1.5rem;
 }
 
 .pagina-titulo {
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
-  color: #374151;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+
+.pagina-subtitulo {
+  font-size: 0.9rem;
+  color: #6b7280;
+  margin-top: 0.25rem;
+}
+
+/* --- BOTÓN CREAR --- */
+.pagina-boton-contenedor {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1.5rem;
 }
 
 .pagina-boton {
-  background-color: #0881b5;
-  color: white;
-  padding: 0.5rem 1rem;
+  background-color: #111827;
+  color: #fff;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
   border: none;
-  border-radius: 6px;
+  font-weight: 500;
   cursor: pointer;
-  margin-bottom: 1rem;
+  transition: background 0.2s;
 }
 
 .pagina-boton:hover {
-  background-color: #2599cb;
+  background-color: #1f2937;
 }
 
-.tabla {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 1rem;
-  background: white;
+/* --- LISTA DE USUARIOS --- */
+.lista-usuarios {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
-.tabla th,
-.tabla td {
-  padding: 0.75rem;
-  border: 1px solid #ddd;
-  text-align: left;
+.lista-titulo {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
 }
 
-.tabla thead {
-  background-color: #f3f4f6;
+.lista-subtexto {
+  color: #6b7280;
+  font-weight: normal;
 }
 
-.tabla-acciones {
+/* --- TARJETAS DE USUARIO --- */
+.usuarios-contenedor {
   display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.usuario-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 1rem;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.usuario-card:hover {
+  background-color: #f9fafb;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* --- INICIALES --- */
+.usuario-iniciales {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background-color: #000;
+  color: white;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1rem;
+}
+
+/* --- INFORMACIÓN DEL USUARIO --- */
+.usuario-info-contenedor {
+  display: flex;
+  align-items: center;
+}
+
+.usuario-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.usuario-nombre {
+  font-weight: 500;
+  color: #111827;
+}
+
+.usuario-email {
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+/* --- DETALLES Y BOTONES --- */
+.usuario-detalles {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.usuario-rol {
+  background-color: #f3f4f6;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  color: #374151;
+}
+
+.usuario-estado {
+  padding: 0.3rem 0.7rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.usuario-estado.activo {
+  background-color: #000;
+  color: #fff;
+}
+
+.usuario-estado.inactivo {
+  background-color: #e5e7eb;
+  color: #4b5563;
+}
+
+.usuario-acciones {
+  display: flex;
+  align-items: center;
   gap: 0.5rem;
 }
 
-.boton-accion {
-  padding: 0.25rem 0.75rem;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 0.875rem;
-  border: none;
-}
-
+/* --- BOTONES DE ACCIÓN --- */
 .boton-editar {
-  background-color: #20b2aa;
-  color: white;
+  border: none;
+  background: none;
+  color: #111827;
+  cursor: pointer;
+  font-weight: 500;
 }
 
-.boton-eliminar {
-  background-color: #374151;
-  color: white;
+.boton-editar:hover {
+  text-decoration: underline;
 }
 
-.ocultar-columna {
-  display: none;
+.boton-estado {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-weight: 500;
 }
 
+.boton-inhabilitar {
+  color: #dc2626;
+}
+
+.boton-activar {
+  color: #16a34a;
+}
+
+.boton-estado:hover {
+  text-decoration: underline;
+}
+
+/* --- MENSAJE VACÍO --- */
 .tabla-vacia {
+  color: #6b7280;
   text-align: center;
-  color: #607280;
-  padding: 1rem;
+  margin-top: 2rem;
 }
