@@ -6,22 +6,32 @@ export const useAuth = () => {
   const [token, setToken] = useState(localStorage.getItem("token") || null);
 
   useEffect(() => {
-    if (token && !user) {
-      // Aqui se valida el token del backend
-      const storedUser = JSON.parse(localStorage.getItem("user"));
+  if (token && !user) {
+    const raw = localStorage.getItem("user");
+
+    try {
+      const storedUser = raw ? JSON.parse(raw) : null;
       if (storedUser) setUser(storedUser);
+    } catch (error) {
+      // Si lo que hay guardado es inválido, lo borramos
+      localStorage.removeItem("user");
+      setUser(null);
     }
-  }, [token]);
+  }
+}, [token]);
+
+
 
   const login = async (email, password) => {
     const data = await loginRequest({ email, password });
+    console.log("Respuesta del backend →", data);
 
     if (data.token) {
       setToken(data.token);
-      setUser(data.usuario);
+      setUser(data.instructor);
 
       localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.usuario));
+      localStorage.setItem("user", JSON.stringify(data.instructor));
 
       return true;
     }

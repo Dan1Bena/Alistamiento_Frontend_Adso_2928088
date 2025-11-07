@@ -20,16 +20,24 @@ export const Login = () => {
 
   const success = await login(email, password);
 
-  if (success) {
-    // 🔹 Obtener el usuario directamente del localStorage
-    const storedUser = JSON.parse(localStorage.getItem("user"));
-    if (storedUser?.rol === "Administrador") {
-      navigate("/principal");
-    } else {
-      navigate("/bienvenido");
-    }
-  } else {
+  if (!success) {
     alert("Credenciales inválidas");
+    return;
+  }
+
+  const rawUser = localStorage.getItem("user");
+
+  if (!rawUser || rawUser === "undefined") {
+    alert("El backend no está enviando el usuario. Revisa la API.");
+    return;
+  }
+
+  const storedUser = JSON.parse(rawUser);
+
+  if (storedUser?.rol === "Administrador") {
+    navigate("/principal");
+  } else {
+    navigate("/bienvenido");
   }
 };
 

@@ -16,7 +16,7 @@ export const Header = () => {
     <header className="header">
       <div className="header-left">
         <h1 className="header-logo" onClick={() => navigate("/principal")}>
-          Admin Panel
+          Panel Administrativo
         </h1>
         <Navbar /> {/* Solo muestra links si es admin */}
       </div>
