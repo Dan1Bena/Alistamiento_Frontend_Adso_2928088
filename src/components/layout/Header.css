@@ -1,16 +1,16 @@
-/* Estilos generales del header */
+/* /* Estilos generales del header
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #1e293b; /* azul oscuro */
+  background-color: #1e293b; 
   color: white;
   padding: 0.8rem 1.5rem;
   box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-}
+} */
 
 /* Lado izquierdo: logo + navegación */
-.header-left {
+/* .header-left {
   display: flex;
   align-items: center;
   gap: 2rem;
@@ -25,17 +25,16 @@
 }
 
 .header-logo:hover {
-  color: #93c5fd; /* azul claro al pasar el mouse */
-}
+  color: #93c5fd;  */
 
 /* Navegación */
-.header-nav {
+/* .header-nav {
   display: flex;
   gap: 1rem;
 }
 
 .nav-link {
-  color: #e5e7eb; /* gris claro */
+  color: #e5e7eb; 
   text-decoration: none;
   font-weight: 500;
   transition: color 0.3s, border-bottom 0.3s;
@@ -44,21 +43,21 @@
 
 .nav-link:hover {
   color: #ffffff;
-  border-bottom: 2px solid #60a5fa; /* azul celeste */
+  border-bottom: 2px solid #60a5fa; 
 }
 
 .nav-link:hover {
   color: #ffffff;
-  border-bottom: 2px solid #60a5fa; /* azul celeste */
+  border-bottom: 2px solid #60a5fa; 
 }
 
 .nav-link.active {
   color: #ffffff;
-  border-bottom: 2px solid #2563eb; /* azul más fuerte */
+  border-bottom: 2px solid #2563eb;  
 }
 
 /* Lado derecho: usuario + logout */
-.header-right {
+/* .header-right {
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -67,23 +66,129 @@
 .header-user {
   font-size: 0.9rem;
   font-weight: 500;
-}
+} */
 
-/* Botón logout pill-button */
-.logout-btn {
-  background-color: #445566; /* gris oscuro */
+/*Botón logout pill-button*/
+/* .logout-btn {
+  background-color: #445566; 
   color: white;
   border: none;
-  padding: 0.3rem 0.9rem; /* más compacto */
-  border-radius: 9999px; /* hace el estilo pill */
+  padding: 0.3rem 0.9rem; 
+  border-radius: 9999px; 
   cursor: pointer;
-  font-size: 0.85rem; /* un poco más pequeño */
+  font-size: 0.85rem; 
   font-weight: 500;
   transition: background 0.3s, transform 0.2s;
 }
 
 .logout-btn:hover {
-  background-color: #374151; /* gris más intenso */
-  transform: scale(1.05); /* efecto sutil al hover */
+  background-color: #374151; 
+  transform: scale(1.05); 
+}  */
+
+
+/* ====== HEADER GENERAL ====== */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 1.5rem 2rem;
+  border-bottom: 2px solid #e5e7eb;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
+/* ====== LADO IZQUIERDO ====== */
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.header-logo-img {
+  width: 60px;
+  height: 38px;
+}
+
+.header-title {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.header-app-name {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #0f172a;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.header-subtitle {
+  font-size: 0.9rem;
+  color: #64748b;
+  margin: 0;
+}
+
+/* ====== LADO DERECHO ====== */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+/* Avatar circular */
+.user-avatar {
+  background-color: #0f172a;
+  color: #fff;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+
+/* Info del usuario */
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.user-role {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.user-name {
+  font-size: 0.8rem;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+}
+
+/* ====== BOTÓN LOGOUT ====== */
+.logout-btn {
+  display: flex;
+  align-items: center;
+  background: none;
+  color: #374151;
+  border: none;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.logout-btn:hover {
+  color: #2563eb;
+}
