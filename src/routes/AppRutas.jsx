@@ -1,7 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import { Home } from "../components/home/Home";
 import { Login } from "../components/login/Login";
-//import { Registro } from "../components/registro/Registro";
 import { Principal } from "../pages/Principal";
 import { UsuariosPagina } from "../pages/UsuariosPagina";
 import { RolesPagina } from "../pages/RolesPagina";
@@ -25,12 +24,12 @@ const PrivateRoute = ({ children, allowedRoles }) => {
 
 export const AppRutas = () => (
 
-  
+
 
   <Routes>
 
-<Route path="/" element={<Home />} />
-<Route path="/login" element={<Login />} />
+    <Route path="/" element={<Home />} />
+    <Route path="/login" element={<Login />} />
 
     <Route path="/" element={<Login />} />
     <Route path="/kanban" element={<KanbanPage />} />
@@ -40,10 +39,11 @@ export const AppRutas = () => (
       path="/principal"
       element={
         <PrivateRoute allowedRoles={["Administrador"]}>
-          <Principal />
+          <UsuariosPagina />
         </PrivateRoute>
       }
     />
+
     <Route
       path="/usuarios"
       element={

@@ -1,57 +1,38 @@
-.principal-dashboard {
-  padding: 20px;
-}
-
-.principal-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 20px;
-  margin-top: 30px;
-}
-
-.card {
-  background: #fff;
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.card h3 {
-  margin-bottom: 10px;
-  font-size: 1.2rem;
-  color: #333;
-}
-
-.card p {
-  color: #666;
-  font-size: 0.9rem;
-}
-
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-}
-
-.principal-nav {
+/* src/pages/Principal.css */
+.principal-container {
   display: flex;
-  gap: 15px;
+  flex-direction: column;
+  height: 100vh;
 }
 
-.nav-link {
-  text-decoration: none;
-  color: #cbd5e1;
-  padding: 6px 12px;
-  border-radius: 6px;
-  transition: background 0.2s;
+.menu-superior {
+  background-color: #1e3a8a; /* azul oscuro */
+  padding: 10px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.nav-link:hover {
-  background: #334155;
+.menu-navegacion ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin: 0;
+  padding: 0;
+}
+
+.menu-navegacion a {
   color: white;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 16px;
+  transition: color 0.3s;
 }
 
-.nav-link.active {
-  background: #475569;
-  color: #fff;
+.menu-navegacion a:hover {
+  color: #93c5fd; /* azul claro */
+}
+
+.principal-contenido {
+  flex: 1;
+  background-color: #f9fafb;
 }
