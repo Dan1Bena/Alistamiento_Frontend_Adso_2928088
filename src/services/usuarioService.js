@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3000/api/usuarios";
+const API_URL = "http://localhost:3000/api/instructores";
 
 export const leerUsuarios = async () => {
   const res = await fetch(API_URL);

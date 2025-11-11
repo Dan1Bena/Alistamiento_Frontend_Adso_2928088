@@ -1,69 +1,97 @@
 import { useState, useEffect } from "react";
-console.log("✅ Renderizando UsuariosPagina nueva");
 import { Layout } from "../components/layout/Layout";
 import "./Pagina.css";
-
-// 🔹 Importa los servicios del backend
-import { leerUsuarios, crearUsuario } from "../services/usuarioService";
+import { leerUsuarios, crearUsuario, actualizarUsuario, eliminarUsuario } from "../services/usuarioService";
 
 export const UsuariosPagina = () => {
   const [usuarios, setUsuarios] = useState([]);
   const [mostrarModal, setMostrarModal] = useState(false);
-  const [nuevoUsuario, setNuevoUsuario] = useState({
+  const [modoEdicion, setModoEdicion] = useState(false);
+  const [usuarioActual, setUsuarioActual] = useState(null);
+
+  const [formUsuario, setFormUsuario] = useState({
     cedula: "",
     nombre: "",
-    correo: "",
+    email: "",
   });
 
-  // 🔹 Leer usuarios al cargar
   useEffect(() => {
-    const cargarUsuarios = async () => {
-      try {
-        const data = await leerUsuarios();
-        setUsuarios(data);
-      } catch (error) {
-        console.error("Error al cargar usuarios:", error);
-      }
-    };
     cargarUsuarios();
   }, []);
 
-  const abrirModal = () => setMostrarModal(true);
-  const cerrarModal = () => {
-    setMostrarModal(false);
-    setNuevoUsuario({ cedula: "", nombre: "", correo: "" });
-  };
-
-  // 🔹 Guardar nuevo usuario en la BD
-  const handleCrearUsuario = async (e) => {
-    e.preventDefault();
+  const cargarUsuarios = async () => {
     try {
-      const usuarioCreado = await crearUsuario(nuevoUsuario);
-      setUsuarios([...usuarios, usuarioCreado]); // se muestra sin recargar
-      cerrarModal();
+      const data = await leerUsuarios();
+      setUsuarios(data);
     } catch (error) {
-      console.error("Error al crear usuario:", error);
+      console.error("Error al cargar usuarios:", error);
     }
   };
 
-  // 🔹 Actualizar los campos del formulario
+  const abrirModal = (usuario = null) => {
+    if (usuario) {
+      setModoEdicion(true);
+      setUsuarioActual(usuario);
+      setFormUsuario({
+        cedula: usuario.cedula,
+        nombre: usuario.nombre,
+        email: usuario.email,
+      });
+    } else {
+      setModoEdicion(false);
+      setUsuarioActual(null);
+      setFormUsuario({ cedula: "", nombre: "", email: "" });
+    }
+    setMostrarModal(true);
+  };
+
+  const cerrarModal = () => {
+    setMostrarModal(false);
+    setModoEdicion(false);
+    setUsuarioActual(null);
+    setFormUsuario({ cedula: "", nombre: "", email: "" });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      if (modoEdicion && usuarioActual) {
+        await actualizarUsuario(usuarioActual.id_instructor, formUsuario);
+      } else {
+        await crearUsuario(formUsuario);
+      }
+      await cargarUsuarios();
+      cerrarModal();
+    } catch (error) {
+      console.error("Error al guardar usuario:", error);
+    }
+  };
+
+  const handleEliminar = async (id) => {
+    if (confirm("¿Seguro que deseas eliminar este instructor?")) {
+      try {
+        await eliminarUsuario(id);
+        await cargarUsuarios();
+      } catch (error) {
+        console.error("Error al eliminar usuario:", error);
+      }
+    }
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setNuevoUsuario({ ...nuevoUsuario, [name]: value });
+    setFormUsuario({ ...formUsuario, [name]: value });
   };
 
   return (
     <Layout>
       <div className="usuarios-container">
-
-        {/* 🔹 Menú superior (Usuarios, Programas, Fichas) */}
         <div className="menu-secciones">
           <span className="activo">Instructores</span>
           <span>Programas</span>
           <span>Fichas</span>
         </div>
 
-        {/* 🔹 Encabezado de la sección */}
         <div className="usuarios-header">
           <h2 className="titulo-seccion">Gestión de Instructores</h2>
           <p className="subtitulo">
@@ -71,82 +99,91 @@ export const UsuariosPagina = () => {
           </p>
         </div>
 
-        {/* 🔹 Contenedor central */}
-        {usuarios.length === 0 ? (
-          <div className="usuarios-lista-vacia">
-            <p>No hay usuarios registrados en el sistema.</p>
-            <button className="btn-crear" onClick={abrirModal}>
-              Crear Instructor
-            </button>
-          </div>
-        ) : (
-          <div className="usuarios-lista">
-            {usuarios.map((u) => (
-              <div key={u.id_usuario} className="card-usuario">
-                <h4>{u.nombre}</h4>
-                <p>{u.correo}</p>
-                <p><strong>Cédula:</strong> {u.cedula}</p>
-              </div>
-            ))}
-            <button className="btn-crear" onClick={abrirModal}>
-              Crear Instructor
-            </button>
-          </div>
-        )}
+        <button className="btn-crear" onClick={() => abrirModal()}>
+          Crear Instructor
+        </button>
 
-        {/* 🔹 Modal */}
+        <div className="usuarios-lista">
+          {usuarios.length === 0 ? (
+            <p>No hay usuarios registrados en el sistema.</p>
+          ) : (
+            usuarios.map((u) => (
+              <div key={u.id_instructor} className="usuario-card">
+                <div className="usuario-info">
+                  <h4>{u.nombre}</h4>
+                  <p><strong>Correo:</strong> {u.email}</p>
+                </div>
+                <div className="acciones-card">
+                  <button
+                    className="btn-editar"
+                    onClick={() => abrirModal(u)}
+                    title="Editar instructor"
+                  >
+                    ✏️
+                  </button>
+                  <button
+                    className="btn-eliminar"
+                    onClick={() => handleEliminar(u.id_instructor)}
+                    title="Eliminar instructor"
+                  >
+                    🗑️
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+
         {mostrarModal && (
           <div className="modal-overlay" onClick={cerrarModal}>
             <div
               className="modal-contenido animate-modal"
               onClick={(e) => e.stopPropagation()}
             >
-              <h3>Crear Nuevo Usuario</h3>
+              <h3>{modoEdicion ? "Editar Instructor" : "Crear Nuevo Instructor"}</h3>
               <p className="descripcion-modal">
-                Completa los siguientes campos obligatorios para crear un nuevo usuario.
+                {modoEdicion
+                  ? "Modifica los datos del instructor seleccionado."
+                  : "Completa los siguientes campos para registrar un nuevo instructor."}
               </p>
 
-              <form className="form-modal" onSubmit={handleCrearUsuario}>
+              <form className="form-modal" onSubmit={handleSubmit}>
                 <label>Cédula*</label>
                 <input
                   type="text"
                   name="cedula"
                   placeholder="Número de cédula"
-                  value={nuevoUsuario.cedula}
+                  value={formUsuario.cedula}
                   onChange={handleChange}
                   required
                 />
 
-                <label>Nombre Completo del Instructor*</label>
+                <label>Nombre Completo*</label>
                 <input
                   type="text"
                   name="nombre"
                   placeholder="Nombre completo"
-                  value={nuevoUsuario.nombre}
+                  value={formUsuario.nombre}
                   onChange={handleChange}
                   required
                 />
 
-                <label>Correo Electrónico del Instructor*</label>
+                <label>Correo Electrónico*</label>
                 <input
                   type="email"
-                  name="correo"
+                  name="email"
                   placeholder="correo@sena.edu.co"
-                  value={nuevoUsuario.correo}
+                  value={formUsuario.email}
                   onChange={handleChange}
                   required
                 />
 
                 <div className="acciones-modal">
-                  <button
-                    type="button"
-                    className="btn-cancelar"
-                    onClick={cerrarModal}
-                  >
+                  <button type="button" className="btn-cancelar" onClick={cerrarModal}>
                     Cancelar
                   </button>
                   <button type="submit" className="btn-crear-usuario">
-                    Crear Usuario
+                    {modoEdicion ? "Guardar Cambios" : "Crear Instructor"}
                   </button>
                 </div>
               </form>

@@ -188,3 +188,66 @@
     opacity: 1;
   }
 }
+
+ .usuario-card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  margin-bottom: 10px;
+}
+
+.usuario-card h4 {
+  margin: 0;
+  color: #333;
+}
+
+.usuario-card p {
+  margin: 5px 0;
+  color: #555;
+  font-size: 14px;
+}
+
+.usuario-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  padding: 20px;
+  margin: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: transform 0.2s ease;
+}
+
+.usuario-card:hover {
+  transform: scale(1.02);
+}
+
+.usuario-info {
+  flex: 1;
+}
+
+.acciones-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-left: 10px;
+}
+
+.btn-editar,
+.btn-eliminar {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 18px;
+  transition: color 0.2s ease;
+}
+
+.btn-editar:hover {
+  color: #007bff;
+}
+
+.btn-eliminar:hover {
+  color: #e63946;
+} 
