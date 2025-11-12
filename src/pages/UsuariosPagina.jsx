@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { ModalUsuario } from "../components/ui/ModalUsuario";
-import { ModalPrograma } from "../components/ui/ModalPrograma";
 import { leerUsuarios, eliminarUsuario, actualizarUsuario, crearUsuario } from "../services/usuarioService";
 import { Layout } from "../components/layout/Layout";
 import "./Pagina.css";
@@ -15,6 +14,8 @@ export const UsuariosPagina = () => {
     cedula: "",
     nombre: "",
     email: "",
+    contrasena: "",
+    estado: 1,      // ← opcional, si tu backend lo usa
   });
   const [programas, setProgramas] = useState([]);
 
@@ -66,41 +67,48 @@ export const UsuariosPagina = () => {
   return (
     <Layout>
       <div className="usuarios-container">
-        {/* MENU DE SECCIONES */}
-        <div className="menu-secciones">
-          <span
-            className={seccionActiva === "instructores" ? "activo" : ""}
+        {/* MENU DE SECCIONES CON ANIMACIÓN */}
+        <div className="menu-secciones-animadas">
+          <div
+            className={`tab ${seccionActiva === "instructores" ? "activo" : ""}`}
             onClick={() => setSeccionActiva("instructores")}
           >
-            Instructores
-          </span>
-          <span
-            className={seccionActiva === "programas" ? "activo" : ""}
+            <i className="fas fa-user"></i>
+            <span>Usuarios</span>
+          </div>
+          <div
+            className={`tab ${seccionActiva === "programas" ? "activo" : ""}`}
             onClick={() => setSeccionActiva("programas")}
           >
-            Programas
-          </span>
-          <span
-            className={seccionActiva === "fichas" ? "activo" : ""}
+            <i className="fas fa-graduation-cap"></i>
+            <span>Programas</span>
+          </div>
+          <div
+            className={`tab ${seccionActiva === "fichas" ? "activo" : ""}`}
             onClick={() => setSeccionActiva("fichas")}
           >
-            Fichas
-          </span>
+            <i className="fas fa-file-alt"></i>
+            <span>Fichas</span>
+          </div>
         </div>
+
 
         {/* 🔹 SECCIÓN INSTRUCTORES */}
         {seccionActiva === "instructores" && (
           <>
             <div className="usuarios-header">
-              <h2 className="titulo-seccion">Gestión de Instructores</h2>
-              <p className="subtitulo">
-                Administra instructores, gestores y administradores del sistema.
-              </p>
+              <div>
+                <h2 className="titulo-seccion">Gestión de Instructores</h2>
+                <p className="subtitulo">
+                  Administra instructores, gestores y administradores del sistema.
+                </p>
+              </div>
+
+              <button className="btn-crear" onClick={() => abrirModal()}>
+                <i className="fas fa-user-plus"></i> Crear Instructor
+              </button>
             </div>
 
-            <button className="btn-crear" onClick={() => abrirModal()}>
-              + Crear Instructor
-            </button>
 
             <div className="usuarios-lista">
               {usuarios.length === 0 ? (
@@ -118,16 +126,17 @@ export const UsuariosPagina = () => {
                         onClick={() => abrirModal(u)}
                         title="Editar instructor"
                       >
-                        ✏️
+                        <i className="fas fa-pen"></i>
                       </button>
                       <button
                         className="btn-eliminar"
                         onClick={() => handleEliminar(u.id_instructor)}
                         title="Eliminar instructor"
                       >
-                        🗑️
+                        <i className="fas fa-trash"></i>
                       </button>
                     </div>
+
                   </div>
                 ))
               )}
@@ -177,6 +186,16 @@ export const UsuariosPagina = () => {
                       required
                     />
 
+                    <label>Contraseña*</label>
+                    <input
+                      type="password"
+                      name="contrasena"
+                      placeholder="••••••••••"
+                      value={formUsuario.contrasena}
+                      onChange={handleChange}
+                      required
+                    />
+
                     <div className="acciones-modal">
                       <button type="button" className="btn-cancelar" onClick={cerrarModal}>
                         Cancelar
@@ -196,18 +215,20 @@ export const UsuariosPagina = () => {
         {seccionActiva === "programas" && (
           <>
             <div className="usuarios-header">
-              <h2 className="titulo-seccion">Gestión de Programas</h2>
-              <p className="subtitulo">
-                Administra los programas de formación del sistema.
-              </p>
-            </div>
+              <div>
+                <h2 className="titulo-seccion">Gestión de Programas</h2>
+                <p className="subtitulo">
+                  Administra los programas de formación del sistema.
+                </p>
+              </div>
 
-            <button
-              className="btn-crear"
-              onClick={() => setMostrarModalPrograma(true)}
-            >
-              + Crear Programa
-            </button>
+              <button
+                className="btn-crear"
+                onClick={() => setMostrarModalPrograma(true)}
+              >
+                <i className="fas fa-book-open"></i> Crear Programa
+              </button>
+            </div>
 
             <div className="usuarios-lista">
               {programas.length === 0 ? (
@@ -224,7 +245,6 @@ export const UsuariosPagina = () => {
                 ))
               )}
             </div>
-
             {mostrarModalPrograma && (
               <ModalPrograma
                 onClose={() => setMostrarModalPrograma(false)}
@@ -232,6 +252,28 @@ export const UsuariosPagina = () => {
               />
             )}
           </>
+        )}
+        {seccionActiva === "fichas" && (
+          <div className="fichas-seccion">
+
+            <div className="usuarios-header">
+              <div>
+                <h2 className="titulo-seccion">Gestión de Fichas</h2>
+                <p className="subtitulo">
+                  Administra las fichas activas de los programas de formación.
+                </p>
+              </div>
+
+              <button className="btn-crear">
+                <i className="fas fa-folder-plus"></i> Crear Ficha
+              </button>
+            </div>
+
+            <div className="fichas-lista">
+              <p>No hay fichas registradas.</p>
+            </div>
+
+          </div>
         )}
       </div>
     </Layout>
