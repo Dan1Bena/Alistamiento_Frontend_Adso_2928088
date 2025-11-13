@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { ModalUsuario } from "../components/ui/ModalUsuario";
+import { ModalPrograma } from "../components/ui/ModalPrograma";
 import { leerUsuarios, eliminarUsuario, actualizarUsuario, crearUsuario } from "../services/usuarioService";
 import { Layout } from "../components/layout/Layout";
 import "./Pagina.css";
@@ -27,6 +28,22 @@ export const UsuariosPagina = () => {
     };
     cargarUsuarios();
   }, []);
+
+  // 🔹 Cargar PROGRAMAS desde el backend
+useEffect(() => {
+  const cargarProgramas = async () => {
+    try {
+      const res = await fetch("http://localhost:3000/api/programas");
+      if (!res.ok) throw new Error("Error al obtener los programas");
+      const data = await res.json();
+      setProgramas(data); // Asegúrate de que el backend devuelva un array JSON
+    } catch (error) {
+      console.error("Error cargando programas:", error);
+    }
+  };
+  cargarProgramas();
+}, []);
+
 
   const abrirModal = (usuario = null) => {
     setModoEdicion(!!usuario);
@@ -59,10 +76,18 @@ export const UsuariosPagina = () => {
   };
 
   // 🔹 FUNCIONES PARA PROGRAMAS
-  const handleGuardarPrograma = (nuevoPrograma) => {
-    setProgramas([...programas, nuevoPrograma]);
-    setMostrarModalPrograma(false);
+const handleGuardarPrograma = (nuevoPrograma) => {
+  const programaData = {
+    id_programa: nuevoPrograma.programa?.id_programa || Date.now(),
+    nombre: nuevoPrograma.programa?.nombre_programa || "Sin nombre",
+    codigo: nuevoPrograma.programa?.codigo_programa || "N/A",
+    fichasAsociadas: nuevoPrograma.programa?.fichas?.length || 0,
   };
+
+  setProgramas((prev) => [...prev, programaData]);
+  setMostrarModalPrograma(false);
+};
+
 
   return (
     <Layout>
