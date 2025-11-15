@@ -102,6 +102,23 @@ export const UsuariosPagina = () => {
     cerrarModal();
   };
 
+  const handleEliminar = async (id) => {
+    if (!confirm("¿Seguro que deseas eliminar este instructor?")) return;
+
+    try {
+      await eliminarUsuario(id);
+
+      const data = await leerUsuarios();
+      setUsuarios(data);
+
+      alert("Instructor eliminado exitosamente");
+    } catch (error) {
+      console.error("Error eliminando instructor:", error);
+      alert("Error eliminando instructor");
+    }
+  };
+
+
   const handleEliminarPrograma = async (id) => {
     if (!confirm("¿Seguro que deseas eliminar este programa?")) return;
 

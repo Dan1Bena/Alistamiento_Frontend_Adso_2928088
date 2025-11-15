@@ -100,8 +100,15 @@ export const ModalFicha = ({ onClose, onSave }) => {
                 type="text"
                 placeholder="Ej: 2669742"
                 value={codigoFicha}
-                onChange={(e) => setCodigoFicha(e.target.value)}
+                maxLength={7} // Máximo 7
+                onChange={(e) => {
+                  const value = e.target.value;
+                  if (/^\d*$/.test(value)) {        // Permite solo números
+                    setCodigoFicha(value);
+                  }
+                }}
               />
+
             </div>
 
             <div className="form-group">
@@ -154,10 +161,17 @@ export const ModalFicha = ({ onClose, onSave }) => {
               <label>Ubicación*</label>
               <input
                 type="text"
-                placeholder="Ej: Laboratorio 301"
+                placeholder="Ej: 301"
                 value={ubicacion}
-                onChange={(e) => setUbicacion(e.target.value)}
+                maxLength={3} // Máximo 3
+                onChange={(e) => {
+                  const value = e.target.value;
+                  if (/^\d*$/.test(value)) {        // Permite solo números
+                    setUbicacion(value);
+                  }
+                }}
               />
+
             </div>
 
             <div className="form-group">
