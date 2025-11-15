@@ -3,7 +3,7 @@ import { useAuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import logo from "../../assets/nodorap.png";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack"; // 👈 Agrega este import arriba con los otros // ajusta si tu ruta es distinta
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
@@ -16,40 +16,42 @@ export const Login = () => {
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  const success = await login(email, password);
+    const success = await login(email, password);
 
-  if (!success) {
-    alert("Credenciales inválidas");
-    return;
-  }
+    if (!success) {
+      alert("Credenciales inválidas");
+      return;
+    }
 
-  const rawUser = localStorage.getItem("user");
+    const rawUser = localStorage.getItem("user");
 
-  if (!rawUser || rawUser === "undefined") {
-    alert("El backend no está enviando el usuario. Revisa la API.");
-    return;
-  }
+    if (!rawUser || rawUser === "undefined") {
+      alert("El backend no está enviando el usuario. Revisa la API.");
+      return;
+    }
 
-  const storedUser = JSON.parse(rawUser);
+    const storedUser = JSON.parse(rawUser);
 
-  if (storedUser?.rol === "Administrador") {
-    navigate("/principal");
-  } else {
-    navigate("/bienvenido");
-  }
-};
+    // 👇 LÓGICA DE REDIRECCIÓN CORREGIDA
+    if (storedUser?.rol === "Administrador") {
+      navigate("/principal");
+    } else if (storedUser?.rol === "Instructor") {
+      navigate("/instructor"); // 👈 NUEVA LÍNEA PARA INSTRUCTORES
+    } else {
+      navigate("/bienvenido");
+    }
+  };
 
   return (
-
     <div className="login-container">
       <div className="login-card">
-         {/* Enlace Volver */}
-    <div className="back-link" onClick={() => navigate("/")}>
-      <ArrowBackIcon sx={{ fontSize: 18 }} />
-      Volver
-    </div>
+        {/* Enlace Volver */}
+        <div className="back-link" onClick={() => navigate("/")}>
+          <ArrowBackIcon sx={{ fontSize: 18 }} />
+          Volver
+        </div>
         <img src={logo} alt="NodoRAP Logo" className="login-logo" />
         <h2>Iniciar Sesión</h2>
         <p className="login-subtitle">

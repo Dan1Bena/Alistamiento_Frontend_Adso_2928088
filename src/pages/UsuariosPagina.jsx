@@ -80,7 +80,14 @@ export const UsuariosPagina = () => {
 
   const abrirModal = (usuario = null) => {
     setModoEdicion(!!usuario);
-    setFormUsuario(usuario || { cedula: "", nombre: "", email: "" });
+    const valoresPorDefecto = {
+    cedula: "",
+    nombre: "", 
+    email: "",
+    contrasena: "",
+    estado: 1
+  };
+    setFormUsuario(usuario ? { ...valoresPorDefecto, ...usuario } : valoresPorDefecto);
     setMostrarModal(true);
   };
 
@@ -400,7 +407,8 @@ export const UsuariosPagina = () => {
                 <p>No hay programas registrados.</p>
               ) : (
                 programas.map((p) => (
-                  <div key={p.id_programa} className="usuario-card"> {/* ✅ Usar id_programa */}
+       <div key={p.id_programa} className="usuario-card">
+
                     <div className="usuario-info">
                       <h4>{p.nombre_programa}</h4> {/* ✅ Usar nombre_programa */}
                       <p><strong>Código:</strong> {p.codigo_programa}</p> {/* ✅ Usar codigo_programa */}

@@ -5,38 +5,46 @@ export const useAuth = () => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(localStorage.getItem("token") || null);
 
+  // Cargar usuario desde localStorage si ya hay token
   useEffect(() => {
-  if (token && !user) {
-    const raw = localStorage.getItem("user");
+    if (token && !user) {
+      const raw = localStorage.getItem("user");
 
-    try {
-      const storedUser = raw ? JSON.parse(raw) : null;
-      if (storedUser) setUser(storedUser);
-    } catch (error) {
-      // Si lo que hay guardado es inválido, lo borramos
-      localStorage.removeItem("user");
-      setUser(null);
+      try {
+        const storedUser = raw ? JSON.parse(raw) : null;
+        if (storedUser) setUser(storedUser);
+      } catch (error) {
+        localStorage.removeItem("user");
+        setUser(null);
+      }
     }
-  }
-}, [token]);
-
-
+  }, [token, user]);
 
   const login = async (email, password) => {
     const data = await loginRequest({ email, password });
     console.log("Respuesta del backend →", data);
 
-    if (data.token) {
-      setToken(data.token);
-      setUser(data.instructor);
+    if (!data.token) return false;
 
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.instructor));
+    // Guardar token
+    localStorage.setItem("token", data.token);
+    setToken(data.token);
 
-      return true;
+  // Camila G.
+    // Tu backend a veces envía "user", otras "instructor"
+    const finalUser = data.user || data.instructor || null;
+
+    if (finalUser) {
+      setUser(finalUser);
+      localStorage.setItem("user", JSON.stringify(finalUser));
     }
 
-    return false;
+    // Guardar instructor por separado si existe (sin romper tu código)
+    if (data.instructor) {
+      localStorage.setItem("instructor", JSON.stringify(data.instructor));
+    }
+
+    return true;
   };
 
   const logout = () => {
@@ -44,6 +52,7 @@ export const useAuth = () => {
     setToken(null);
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    localStorage.removeItem("instructor");
   };
 
   return { user, token, login, logout };

@@ -10,31 +10,36 @@ import { Bienvenido } from "../pages/Bienvenido";
 import { useAuthContext } from "../context/AuthContext";
 import KanbanPage from "../pages/KanbanPage";
 
+// ⬇⬇⬇ IMPORT NOMBRADO (sin default)
+import { InstructorDashboard } from "../pages/instructor/InstructorDashboard";
 
 const PrivateRoute = ({ children, allowedRoles }) => {
   const { user } = useAuthContext();
 
-  if (!user) return <Login />; // No logueado
-  if (allowedRoles && !allowedRoles.includes(user.rol)) return <Bienvenido />; // Rol no permitido
+  if (!user) return <Login />; 
+  if (allowedRoles && !allowedRoles.includes(user.rol)) return <Bienvenido />;
 
   return children;
 };
 
-
-
 export const AppRutas = () => (
-
-
-
   <Routes>
-
     <Route path="/" element={<Home />} />
     <Route path="/login" element={<Login />} />
 
-    <Route path="/" element={<Login />} />
+    {/* Instructor */}
+    <Route
+      path="/instructor"
+      element={
+        <PrivateRoute allowedRoles={["Instructor"]}>
+          <InstructorDashboard />
+        </PrivateRoute>
+      }
+    />
+
     <Route path="/kanban" element={<KanbanPage />} />
 
-    {/* Solo Admin */}
+    {/* Admin */}
     <Route
       path="/principal"
       element={
@@ -52,6 +57,7 @@ export const AppRutas = () => (
         </PrivateRoute>
       }
     />
+
     <Route
       path="/roles"
       element={
@@ -60,6 +66,7 @@ export const AppRutas = () => (
         </PrivateRoute>
       }
     />
+
     <Route
       path="/permisos"
       element={
@@ -68,6 +75,7 @@ export const AppRutas = () => (
         </PrivateRoute>
       }
     />
+
     <Route
       path="/rol-permisos"
       element={
@@ -77,7 +85,7 @@ export const AppRutas = () => (
       }
     />
 
-    {/* Todos los usuarios logueados pueden acceder */}
+    {/* Cualquier usuario logueado */}
     <Route
       path="/bienvenido"
       element={
@@ -88,4 +96,3 @@ export const AppRutas = () => (
     />
   </Routes>
 );
-

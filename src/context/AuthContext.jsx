@@ -5,7 +5,16 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const auth = useAuth();
-    return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>;
+    
+    // ✅ Asegurar que siempre haya un objeto válido
+    const authValue = auth || {
+        user: null,
+        token: null,
+        login: async () => false,
+        logout: () => {}
+    };
+
+    return <AuthContext.Provider value={authValue}>{children}</AuthContext.Provider>;
 };
 
 export const useAuthContext = () => useContext(AuthContext);
